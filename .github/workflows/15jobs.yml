@@ -22,6 +22,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install aiohttp
 
-      - name: Run the script
+      - name: Create temp directory for the run
         run: |
+          mkdir -p temp_${{ matrix.run }}
+          cp script.py temp_${{ matrix.run }}/
+
+      - name: Run the script independently
+        run: |
+          cd temp_${{ matrix.run }}
           python script.py ${{ matrix.run }}
+        continue-on-error: true
